@@ -1,11 +1,14 @@
-import { LinkCurto } from "../entity/link-curto";
 import { LinkCurtoRepository } from "../repository/link-curto.repository";
 
-export class GetLinkCurtoBySlugUseCase {
+export class GetRedirectLinkBySlugUseCase {
   constructor(private readonly repository: LinkCurtoRepository) {}
 
-  async executar(slug: string): Promise<LinkCurto> {
+  async executar(slug: string): Promise<string> {
     const linkCurto = await this.repository.getBySlug(slug);
-    return linkCurto;
+    if (linkCurto) {
+      return linkCurto.link;
+    } else {
+      return `/404?slug=${slug}`;
+    }
   }
 }
