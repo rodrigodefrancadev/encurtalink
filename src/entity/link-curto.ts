@@ -32,4 +32,13 @@ export class LinkCurto implements LinkCurtoProps {
 
     return id;
   }
+
+  public toJson() {
+    return {
+      id: this.id,
+      link: this.link,
+      slug: this.generateSlug(),
+      criadoEm: this.criadoEm.toISOString(),
+    }
+  }
 }
