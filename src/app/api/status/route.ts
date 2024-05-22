@@ -1,3 +1,7 @@
+import { PrismaClient } from "@prisma/client";
+
 export async function GET() {
-  return Response.json({ alive: true });
+  const prisma = new PrismaClient();
+  const count = await prisma.linkCurto.count();
+  return Response.json({ alive: true, total: count });
 }
