@@ -6,13 +6,13 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 
-model LinkCurto{
+model ShortLink {
   id Int @id @default(autoincrement())
   link String
-  criadoEm DateTime @default(now())
+  createdAt DateTime @default(now())
 }
