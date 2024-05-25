@@ -1,6 +1,13 @@
 "use client";
 
 import { useRef, useState } from "react";
+import {
+  FormControl,
+  Text,
+  FormErrorMessage,
+  Input,
+  Button,
+} from "@chakra-ui/react";
 
 export default function () {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -22,11 +29,32 @@ export default function () {
     setSlug(linkCurto.slug);
   }
   return (
-    <div style={{ display: "grid", placeItems: "center", height: "100vh" }}>
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <h4>Encurtador de Link</h4>
-        <input ref={inputRef} />
-        <button onClick={encurtarLink}>Encurtar Link!</button>
+    <div
+      style={{
+        display: "grid",
+        placeItems: "center",
+        height: "100vh",
+        width: "100vw",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          width: "100%",
+          maxWidth: 240,
+        }}
+      >
+        <Text>Encurtador de Link</Text>
+        <FormControl w="100%" isInvalid>
+          <Input
+            w="100%"
+            placeholder="https://www.seulink.com"
+            ref={inputRef}
+          />
+          <FormErrorMessage>Error message</FormErrorMessage>
+        </FormControl>
+        <Button onClick={encurtarLink}>Encurtar Link!</Button>
         {slug && (
           <div style={{ marginTop: 24 }}>
             <a
