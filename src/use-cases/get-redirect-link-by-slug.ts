@@ -6,7 +6,7 @@ export class GetRedirectLinkBySlugUseCase {
   async execute(slug: string): Promise<string> {
     const shortLink = await this.repository.getBySlug(slug);
     if (shortLink) {
-      return shortLink.link;
+      return shortLink.link.url;
     } else {
       return `/404?slug=${slug}`;
     }

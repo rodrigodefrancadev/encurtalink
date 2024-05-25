@@ -1,12 +1,14 @@
+import { LinkEntity } from "./link";
+
 interface ShortLinkProps {
   id: number;
-  link: string;
+  link: LinkEntity.Link;
   createdAt: Date;
 }
 
 export class ShortLink implements ShortLinkProps {
   public readonly id: number;
-  public readonly link: string;
+  public readonly link: LinkEntity.Link;
   public readonly createdAt: Date;
   public get slug(): string {
     return this.generateSlug();
@@ -36,7 +38,7 @@ export class ShortLink implements ShortLinkProps {
   public toJson() {
     return {
       id: this.id,
-      link: this.link,
+      link: this.link.url,
       slug: this.generateSlug(),
       createdAt: this.createdAt.toISOString(),
     };
