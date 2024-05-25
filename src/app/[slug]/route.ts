@@ -6,6 +6,6 @@ export async function GET(
   { params }: { params: { slug: string } }
 ) {
   const useCase = UseCasesFactory.getRedirectLinkBySlug();
-  const redirectLink = await useCase.executar(params.slug);
+  const redirectLink = await useCase.execute(params.slug);
   return redirect(redirectLink);
 }

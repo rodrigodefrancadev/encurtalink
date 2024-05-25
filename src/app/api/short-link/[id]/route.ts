@@ -1,4 +1,3 @@
-import { PrismaClient } from "@prisma/client";
 import { UseCasesFactory } from "../../../../use-cases";
 
 interface Params {
@@ -7,10 +6,10 @@ interface Params {
 
 export async function GET(_: Request, { params }: { params: Params }) {
   const id = parseInt(params.id);
-  const useCase = UseCasesFactory.getLinkCurtoById();
-  const linkCurto = await useCase.executar(id);
-  if (!linkCurto) {
+  const useCase = UseCasesFactory.getShortLinkById();
+  const shortLink = await useCase.execute(id);
+  if (!shortLink) {
     return Response.json({ message: "link não encontrado" }, { status: 404 });
   }
-  return Response.json(linkCurto.toJson());
+  return Response.json(shortLink.toJson());
 }

@@ -1,4 +1,3 @@
-import { PrismaClient } from "@prisma/client";
 import { UseCasesFactory } from "../../../use-cases";
 
 export async function POST(request: Request) {
@@ -6,7 +5,7 @@ export async function POST(request: Request) {
   const link = body.link;
   if (!link) throw new Error("Link não informado");
 
-  const useCase = UseCasesFactory.createLinkCurto();
-  const linkCurto = await useCase.executar(link);
-  return Response.json(linkCurto.toJson());
+  const useCase = UseCasesFactory.createShortLink();
+  const shortLink = await useCase.execute(link);
+  return Response.json(shortLink.toJson());
 }

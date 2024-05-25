@@ -1,21 +1,21 @@
-interface LinkCurtoProps {
+interface ShortLinkProps {
   id: number;
   link: string;
-  criadoEm: Date;
+  createdAt: Date;
 }
 
-export class LinkCurto implements LinkCurtoProps {
+export class ShortLink implements ShortLinkProps {
   public readonly id: number;
   public readonly link: string;
-  public readonly criadoEm: Date;
+  public readonly createdAt: Date;
   public get slug(): string {
     return this.generateSlug();
   }
 
-  constructor(props: LinkCurtoProps) {
+  constructor(props: ShortLinkProps) {
     this.id = props.id;
     this.link = props.link;
-    this.criadoEm = props.criadoEm;
+    this.createdAt = props.createdAt;
   }
 
   private generateSlug() {
@@ -38,7 +38,7 @@ export class LinkCurto implements LinkCurtoProps {
       id: this.id,
       link: this.link,
       slug: this.generateSlug(),
-      criadoEm: this.criadoEm.toISOString(),
-    }
+      createdAt: this.createdAt.toISOString(),
+    };
   }
 }

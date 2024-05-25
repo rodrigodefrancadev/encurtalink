@@ -1,12 +1,12 @@
-import { LinkCurtoRepository } from "../repository/link-curto.repository";
+import { ShortLinkRepository } from "../repository/short-link.repository";
 
 export class GetRedirectLinkBySlugUseCase {
-  constructor(private readonly repository: LinkCurtoRepository) {}
+  constructor(private readonly repository: ShortLinkRepository) {}
 
-  async executar(slug: string): Promise<string> {
-    const linkCurto = await this.repository.getBySlug(slug);
-    if (linkCurto) {
-      return linkCurto.link;
+  async execute(slug: string): Promise<string> {
+    const shortLink = await this.repository.getBySlug(slug);
+    if (shortLink) {
+      return shortLink.link;
     } else {
       return `/404?slug=${slug}`;
     }

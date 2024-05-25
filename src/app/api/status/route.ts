@@ -1,7 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "../../../server/db";
 
 export async function GET() {
-  const prisma = new PrismaClient();
-  const count = await prisma.linkCurto.count();
+  const count = await prisma.shortLink.count();
   return Response.json({ alive: true, total: count });
 }
