@@ -1,24 +1,44 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import {
   FormControl,
   Text,
   FormErrorMessage,
   Input,
   Button,
+  Link,
+  Box,
+  useToast,
 } from "@chakra-ui/react";
+import { ExternalLinkIcon } from "@chakra-ui/icons";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+
+const formSchema = z.object({
+  link: z.string().url("Link Inválido"),
+});
+
+type FormData = z.infer<typeof formSchema>;
 
 export default function () {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const toast = useToast();
+  const {
+    handleSubmit,
+    register,
+    formState: { errors, isSubmitting },
+  } = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+  });
+
   const [slug, setSlug] = useState(null);
 
-  async function encurtarLink() {
-    const link = inputRef.current?.value;
-    console.log(link);
+  async function onSubmit(formData: FormData) {
+    const link = formData.link;
     if (!link) return;
 
-    const response = await fetch("/api/link-curto", {
+    const response = await fetch("/api/short-link", {
       method: "POST",
       body: JSON.stringify({
         link: link,
@@ -27,6 +47,18 @@ export default function () {
 
     const linkCurto = await response.json();
     setSlug(linkCurto.slug);
+  }
+
+  function copiarLinkGerado() {
+    const link = `${location.origin}/${slug}`;
+    navigator.clipboard.writeText(link);
+    toast({
+      title: "Link Copiado",
+      description: link,
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
   }
   return (
     <div
@@ -45,24 +77,47 @@ export default function () {
           maxWidth: 240,
         }}
       >
-        <Text>Encurtador de Link</Text>
-        <FormControl w="100%" isInvalid>
-          <Input
+        <Text align={"center"} m={5} fontSize={24} fontWeight={600}>
+          Encurtador de Link
+        </Text>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <FormControl w="100%" isInvalid={!!errors.link}>
+            <Input
+              w="100%"
+              placeholder="https://www.seulink.com"
+              {...register("link")}
+            />
+            <FormErrorMessage>
+              <span>{errors.link && errors.link.message}</span>
+            </FormErrorMessage>
+          </FormControl>
+          <Button
+            isLoading={isSubmitting}
+            type="submit"
+            colorScheme="purple"
+            mt={4}
             w="100%"
-            placeholder="https://www.seulink.com"
-            ref={inputRef}
-          />
-          <FormErrorMessage>Error message</FormErrorMessage>
-        </FormControl>
-        <Button onClick={encurtarLink}>Encurtar Link!</Button>
+          >
+            Encurtar Link!
+          </Button>
+        </form>
+
         {slug && (
-          <div style={{ marginTop: 24 }}>
-            <a
-              href={`${location.origin}/${slug}`}
-              target="_blank"
-              rel="noopener"
-            >{`${location.origin}/${slug}`}</a>
-          </div>
+          <Box
+            mt={6}
+            w="100%"
+            flexDirection={"column"}
+            alignItems={"center"}
+            display={"flex"}
+          >
+            <Link href={`${location.origin}/${slug}`} isExternal>
+              {`${location.origin}/${slug}`} <ExternalLinkIcon mx="2px" />
+            </Link>
+
+            <Button colorScheme="teal" size="xs" onClick={copiarLinkGerado}>
+              Copiar
+            </Button>
+          </Box>
         )}
       </div>
     </div>
