@@ -1,8 +1,9 @@
 "use client";
+import { FunctionComponent, Suspense } from "react";
 import styles from "./style.module.css";
 import { useSearchParams } from "next/navigation";
 
-export default function () {
+const Page404: FunctionComponent = () => {
   const params = useSearchParams();
   const slug = params.get("slug");
   return (
@@ -11,5 +12,13 @@ export default function () {
       {slug && <div className={styles.slug}>{slug}</div>}
       <div>Página não encontrada.</div>
     </div>
+  );
+};
+
+export default function () {
+  return (
+    <Suspense>
+      <Page404 />
+    </Suspense>
   );
 }
