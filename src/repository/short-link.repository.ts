@@ -22,7 +22,7 @@ export class ShortLinkRepository {
   }
 
   async getById(id: number): Promise<ShortLink> {
-    const shortLinkDb = await this.prisma.shortLink.findUnique({
+    const shortLinkDb = await this.prisma.shortLink.findUniqueOrThrow({
       where: {
         id,
       },
