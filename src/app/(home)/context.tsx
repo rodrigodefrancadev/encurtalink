@@ -6,6 +6,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import { getShortUrlBySlug } from "../_common/get-short-url-by-slug";
 
 interface IHomeContext {
   shortLink: string | null;
@@ -28,7 +29,7 @@ export const HomeContextProvider: FunctionComponent<PropsWithChildren> = ({
     if (!slug) {
       return null;
     }
-    return `${getBaseUrl()}/${slug}`;
+    return getShortUrlBySlug(slug);
   }, [slug]);
 
   const value: IHomeContext = {
@@ -42,8 +43,4 @@ export const HomeContextProvider: FunctionComponent<PropsWithChildren> = ({
 export function useHomeContext() {
   const homeContext = useContext(HomeContext);
   return homeContext;
-}
-
-function getBaseUrl() {
-  return process.env.NEXT_PUBLIC_SHORT_LINK_BASE_URL || location.origin;
 }
