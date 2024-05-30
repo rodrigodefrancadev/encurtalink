@@ -2,7 +2,7 @@
 
 Um sistema de encurtamento de link usando um algorótimo simples para geração dos links curtos.
 
-### Teste o aplicativo: [encurta.meulink.uk](https://encurta.meulink.uk)
+### Teste o aplicativo: <a href="https://encurta.meulink.uk" _target='blank'>encurta.meulink.uk</a>
 
 ## Tecnologias
 
