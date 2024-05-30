@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "npm run services:up && sleep 3 && next dev",
+    "dev": "next dev",
     "services:up": "docker compose up",
     "build": "npx prisma generate && next build",
     "start": "next start",
