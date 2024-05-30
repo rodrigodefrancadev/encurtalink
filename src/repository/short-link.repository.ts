@@ -21,19 +21,26 @@ export class ShortLinkRepository {
     return shortLink;
   }
 
-  async getById(id: number): Promise<ShortLink> {
-    const shortLinkDb = await this.prisma.shortLink.findUniqueOrThrow({
+  async getById(id: number): Promise<ShortLink | null> {
+    const shortLinkDb = await this.prisma.shortLink.findUnique({
       where: {
         id,
       },
     });
+
+    if (!shortLinkDb) return null;
+
     const shortLink = this.shortLinkDbToShortLink(shortLinkDb);
     return shortLink;
   }
 
-  async getBySlug(slug: string): Promise<ShortLink> {
-    const id = ShortLink.decodeSlug(slug);
-    return await this.getById(id);
+  async getBySlug(slug: string): Promise<ShortLink | null> {
+    try {
+      const id = ShortLink.decodeSlug(slug);
+      return await this.getById(id);
+    } catch {
+      return null;
+    }
   }
 
   private shortLinkDbToShortLink(shortLinkDb: ShortLinkDb): ShortLink {
