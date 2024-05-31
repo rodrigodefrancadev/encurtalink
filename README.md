@@ -6,6 +6,7 @@ Um sistema de encurtamento de link usando um algorótimo simples para geração 
 
 ## Tecnologias
 
+- React
 - Next.Js
 - Prisma
 - Postgress
